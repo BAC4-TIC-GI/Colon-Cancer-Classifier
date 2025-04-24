@@ -35,9 +35,11 @@
                                 {% endif %}
                                 <td class="border p-2">{{ prediction.feature_name }}</td>
                                 <td class="border p-2">{{ prediction.feature_value }}</td>
-                                <td class="border p-2">{{ prediction.prediction }}</td>
+                                <td class="border p-2 font-semibold {% if prediction.prediction == 'normal' %}text-green-600{% else %}text-red-600{% endif %}">
+                                    {{ prediction.prediction|title }}
+                                </td>
                                 <td class="border p-2">{{ prediction.probability|floatformat:2 }}</td>
-                                <td class="border p-2">{{ prediction.is_positive|yesno:"Yes,No" }}</td>
+                                <td class="border p-2 text-white {% if prediction.is_positive %}bg-green-600{% else %}bg-red-600{% endif %}">{{ prediction.is_positive|yesno:"Yes,No" }}</td>
                                 <td class="border p-2">{{ prediction.created_at|date:"Y-m-d H:i" }}</td>
                             </tr>
                         {% endfor %}
