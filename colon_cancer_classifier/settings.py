@@ -14,7 +14,7 @@ SECRET_KEY = '@hdyz+at*@y9gidmk7-ehjd*q!2t32w#i1$_f7(730%-=+sl9n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["colon-cancer-classifier.onrender.com"]
+ALLOWED_HOSTS = ["colon-cancer-classifier.onrender.com", "*"]
 
 
 # Application definition

@@ -5,48 +5,50 @@
     <h2 class="text-xl font-semibold mb-4">Prediction History</h2>
 
     {% if patients %}
-        <table class="w-full border-collapse">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border border-gray-300 p-2">Patient Name</th>
-                    <th class="border border-gray-300 p-2">Age</th>
-                    <th class="border border-gray-300 p-2">Gender</th>
-                    <th class="border border-gray-300 p-2">Feature</th>
-                    <th class="border border-gray-300 p-2">Value</th>
-                    <th class="border border-gray-300 p-2">Prediction</th>
-                    <th class="border border-gray-300 p-2">Confidence (%)</th>
-                    <th class="border border-gray-300 p-2">Is Normal</th>
-                    <th class="border border-gray-300 p-2">Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for patient in patients %}
-                    {% for prediction in patient.predictions.all %}
+        <div class="overflow-y-auto max-h-[500px] table-container">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border border-gray-300 p-2">Patient Name</th>
+                        <th class="border border-gray-300 p-2">Age</th>
+                        <th class="border border-gray-300 p-2">Gender</th>
+                        <th class="border border-gray-300 p-2">Feature</th>
+                        <th class="border border-gray-300 p-2">Value</th>
+                        <th class="border border-gray-300 p-2">Prediction</th>
+                        <th class="border border-gray-300 p-2">Confidence (%)</th>
+                        <th class="border border-gray-300 p-2">Is Normal</th>
+                        <th class="border border-gray-300 p-2">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                        {% for prediction in patient.predictions.all %}
+                            <tr>
+                                {% if forloop.first %}
+                                    <td class="border p-2" rowspan="{{ patient.predictions.count }}">{{ patient.name }}</td>
+                                    <td class="border p-2" rowspan="{{ patient.predictions.count }}">{{ patient.age }}</td>
+                                    <td class="border p-2" rowspan="{{ patient.predictions.count }}">
+                                        {% if patient.gender == 'M' %}Male
+                                        {% elif patient.gender == 'F' %}Female
+                                        {% else %}Other{% endif %}
+                                    </td>
+                                {% endif %}
+                                <td class="border p-2">{{ prediction.feature_name }}</td>
+                                <td class="border p-2">{{ prediction.feature_value }}</td>
+                                <td class="border p-2">{{ prediction.prediction }}</td>
+                                <td class="border p-2">{{ prediction.probability|floatformat:2 }}</td>
+                                <td class="border p-2">{{ prediction.is_positive|yesno:"Yes,No" }}</td>
+                                <td class="border p-2">{{ prediction.created_at|date:"Y-m-d H:i" }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% empty %}
                         <tr>
-                            {% if forloop.first %}
-                                <td class="border p-2" rowspan="{{ patient.predictions.count }}">{{ patient.name }}</td>
-                                <td class="border p-2" rowspan="{{ patient.predictions.count }}">{{ patient.age }}</td>
-                                <td class="border p-2" rowspan="{{ patient.predictions.count }}">
-                                    {% if patient.gender == 'M' %}Male
-                                    {% elif patient.gender == 'F' %}Female
-                                    {% else %}Other{% endif %}
-                                </td>
-                            {% endif %}
-                            <td class="border p-2">{{ prediction.feature_name }}</td>
-                            <td class="border p-2">{{ prediction.feature_value }}</td>
-                            <td class="border p-2">{{ prediction.prediction }}</td>
-                            <td class="border p-2">{{ prediction.probability|floatformat:2 }}</td>
-                            <td class="border p-2">{{ prediction.is_positive|yesno:"Yes,No" }}</td>
-                            <td class="border p-2">{{ prediction.created_at|date:"Y-m-d H:i" }}</td>
+                            <td colspan="9" class="border p-2 text-center">No predictions available.</td>
                         </tr>
                     {% endfor %}
-                {% empty %}
-                    <tr>
-                        <td colspan="9" class="border p-2 text-center">No predictions available.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     {% else %}
         <p class="text-gray-600">No predictions have been made yet.</p>
     {% endif %}
