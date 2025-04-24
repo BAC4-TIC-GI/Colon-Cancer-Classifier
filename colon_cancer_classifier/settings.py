@@ -71,6 +71,16 @@ DATABASES = {
        )
    }
 
+# Add this below your existing DATABASES configuration
+DATABASE_URL = "postgresql://cc_classifier_user:lTvinkiYwgxdSmY0YbIZ1IfjdM1xhl3Y@dpg-d053tsbe5dus738srchg-a.oregon-postgres.render.com/cc_classifier"
+
+# Update the default database configuration with PostgreSQL
+db_from_env = dj_database_url.config(
+    default=DATABASE_URL, 
+    conn_max_age=600,
+    conn_health_checks=True,
+)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
