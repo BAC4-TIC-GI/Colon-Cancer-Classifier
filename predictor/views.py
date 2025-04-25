@@ -7,7 +7,7 @@ import pandas as pd
 from pathlib import Path
 
 # Get the current file directory
-model_path = Path(__file__).resolve().parent / 'cc_model.pkl'
+model_path = Path(__file__).resolve().parent / 'cc_model_rf.pkl'
 model = joblib.load(model_path)
 
 class HomeView(View):
